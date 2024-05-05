@@ -21,64 +21,103 @@ Developed by: Sharon Harshini L M
 RegisterNumber: 212223040193
 
 import pandas as pd
-data=pd.read_csv('Placement_Data.csv')
-data.head()
+df=pd.read_csv("Placement_Data.csv")
+print(df.head())
 
+df1=df.copy()
+df1=df1.drop(["sl_no","salary"],axis=1)
+print(df1.head())
 
-data1=data.copy()
-data1=data1.drop(["sl_no","salary"],axis = 1)#removes the specified row or column
-data1.head()
+df1.isnull().sum()
 
-
-data1.isnull().sum()
-
-
-data1.duplicated().sum()
-
+df1.duplicated().sum()
 
 from sklearn.preprocessing import LabelEncoder
 le=LabelEncoder()
-data1["gender"] = le.fit_transform(data1["gender"])
-data1["ssc_b"] = le.fit_transform(data1["ssc_b"])
-data1["hsc_b"] = le.fit_transform(data1["hsc_b"])
-data1["hsc_s"] = le.fit_transform(data1["hsc_s"])
-data1["degree_t"] = le.fit_transform(data1["degree_t"])
-data1["workex"] = le.fit_transform(data1["workex"])
-data1["specialisation"] = le.fit_transform(data1["specialisation"])
-data1["status"] = le.fit_transform(data1["status"])
-data1
+df1["gender"]=le.fit_transform(df1["gender"])
+df1["ssc_b"]=le.fit_transform(df1["ssc_b"])
+df1["hsc_b"]=le.fit_transform(df1["hsc_b"])
+df1["hsc_s"]=le.fit_transform(df1["hsc_s"])
+df1["degree_t"]=le.fit_transform(df1["degree_t"])
+df1["workex"]=le.fit_transform(df1["workex"])
+df1["specialisation"]=le.fit_transform(df1["specialisation"])
+df1["status"]=le.fit_transform(df1["status"])
+print(df1)
 
+x=df1.iloc[:,:-1]
+print(x)
 
-x=data1.iloc[:,:-1]
-x
-
-
-y=data1["status"]
-y
-
+y=df1["status"]
+print(y)
 
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size = 0.2,random_state = 0)
-
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
 
 from sklearn.linear_model import LogisticRegression
-lr = LogisticRegression(solver = "liblinear")# a library for large
+lr=LogisticRegression(solver="liblinear")
 lr.fit(x_train,y_train)
-y_pred = lr.predict(x_test)
-y_pred
+y_pred=lr.predict(x_test)
+print(y_pred)
+
+from sklearn.metrics import accuracy_score
+accuracy=accuracy_score(y_test,y_pred)
+print(accuracy)
+
+from sklearn.metrics import confusion_matrix
+confusion = confusion_matrix(y_test,y_pred)
+print(confusion)
+
+from sklearn.metrics import classification_report
+classification_report1 = classification_report(y_test,y_pred)
+print(classification_report1)
+
+lr.predict([[1,80,1,90,1,1,90,1,0,85,1,85]])
 
 */
 ```
 
 ## Output:
-![320174054-0dd4df34-42c6-41a8-9943-fcecacf5dd18](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/e92b8317-ddc2-4978-a3c8-ff02acc9d130)
-![320174063-d7d83bb6-6259-4a8c-b7e6-a080dc65af4e](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/fd3a7792-6d94-4771-ba48-432bb07369a5)
-![320174066-121d8e11-f336-49d5-960b-ba241ea49b8b](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/34499eea-4b40-4af1-9493-5f1b98cb121a)
-![320174092-c22fe549-0e20-41f5-af9b-cb01b30ad4b6](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/17ebd093-3b72-4624-8d6f-c7654892fcec)
-![320174092-c22fe549-0e20-41f5-af9b-cb01b30ad4b6](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/7954f834-4f3d-4733-8153-d2b5c47ebd6a)
-![320174110-400e78b0-334a-4c15-a92f-6bd98ecbbb28](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/4d23ca51-f5c9-40fe-84fb-3b8061ffe55f)
-![320174110-400e78b0-334a-4c15-a92f-6bd98ecbbb28](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/e09aca6f-de77-4aba-9a80-c16174e75feb)
-![320174131-340e4604-43b4-4ef5-9f44-cd3d9163209e](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/3676d047-16be-41d7-a408-81c083a60278)
+ORIGINAL DATA
+
+![Screenshot 2024-03-21 092010](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/00727c96-d3fb-4940-acaf-68f4db55c2b2)
+
+
+AFTER REMOVING
+
+![Screenshot 2024-03-21 092101](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/43fe7c23-1184-48c5-984d-d4caecf48a92)
+
+NULL DATA
+
+![Screenshot 2024-03-21 092111](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/4733798b-3339-4afc-a381-46ab320e40b9)
+
+LABEL ENCODER
+
+![Screenshot 2024-03-21 092144](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/48f43e18-b646-46bd-b535-e2a63f6ed7fc)
+
+X VALUES
+
+![Screenshot 2024-03-21 092153](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/4c580e28-bbca-4b5c-bf3d-c20fa59beb8e)
+
+Y VALUES
+
+![Screenshot 2024-03-21 092204](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/14283749-501e-435b-a920-d5da86a4a787)
+
+Y_Prediction
+
+![Screenshot 2024-03-21 092215](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/17070858-d7c4-4ae0-a207-584502305f37)
+
+ACCURACY
+
+![Screenshot 2024-03-21 092225](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/be079145-a54a-4d3b-a4e6-f74deff20dbe)
+
+CONFUSION MATRIX
+
+![Screenshot 2024-03-21 092246](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/0e5764f9-c6f2-4740-9cab-609ef48fcd21)
+
+CLASSIFICATION
+
+![Screenshot 2024-03-21 092257](https://github.com/sharon120/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/149555539/aaf9d3da-9393-465d-ab7c-f9c12c099b67)
+
 
 ## Result:
 Thus the program to implement the the Logistic Regression Model to Predict the Placement Status of Student is written and verified using python programming.
